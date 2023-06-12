@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">photo-poll</string>
+    <string name="title_activity_main">photo-poll</string>
+    <string name="package_name">in.zybernau.photopoll</string>
+    <string name="custom_url_scheme">in.zybernau.photopoll</string>
+</resources>

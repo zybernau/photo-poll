@@ -1,0 +1,12 @@
+.add-photo {
+    height: 500px;
+}
+
+.edit-photo {
+    height: 100%;
+}
+
+ion-thumbnail {
+    --size: 250px;
+    --border-radius: 10px;
+}
