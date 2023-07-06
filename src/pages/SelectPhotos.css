@@ -10,3 +10,7 @@ ion-thumbnail{
     --size: 120px;
     --border-radius: 8px;
 }
+
+a {
+    color: black;
+}

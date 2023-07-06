@@ -27,6 +27,9 @@ export interface PhotoObj {
   url: string
 }
 
+export interface locationType {
+  savePhotoFunction: Function;
+}
 export interface SelectPhotoProps {
   onPhotoUpdate: Function;
 }
@@ -60,6 +63,7 @@ const SelectPhotos: React.FC<SelectPhotoProps> = (onPhotoUpdate) => {
     // onPhotoUpdate(photos);
     // console.log("photos count", photos.length);
     setPhotoCount(photos.length);
+    modal.current?.dismiss();
     // 
     // history.go(-1);
   }
@@ -86,12 +90,41 @@ const SelectPhotos: React.FC<SelectPhotoProps> = (onPhotoUpdate) => {
                 </IonLabel>
               </IonItem>
             </IonItem>
-            <IonNavLink routerDirection="root" component={() => <Photo photoFileName={"somefilename"} alias={"somealias"} editMode={false} callSavePhoto={savePhoto}   />}>
+            {/* <IonNavLink routerDirection="root" component={() => <Photo photoFileName={"somefilename"} alias={"somealias"} editMode={false} callSavePhoto={savePhoto}   />}>
               <IonButton>Add Photo</IonButton>
-            </IonNavLink>
+            </IonNavLink> */}
+
+            {/* <IonButton> */}
+            {/* <Link to="/AddPhoto"  > Add Photo</Link> */}
+            {/* <Link to={{ pathname: "/AddPhoto", state: { savePhotoFunction: savePhoto } }} > Add Photo !!!</Link> */}
+            {/* <Link to="/AddPhoto" component={() => <Photo photoFileName={"somefilename"} alias={"somealias"} editMode={false} callSavePhoto={savePhoto}   />} > Add Photo !!!</Link> */}
+
+            {/* </IonButton> */}
+            <IonButton id="open-modal" expand="block">
+              Add Photo
+            </IonButton>
+
+            {/* state={{ from: "occupation" } */}
             {/* <IonButton>
               Add Photo
             </IonButton> */}
+
+            <IonModal ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
+              {/* <IonHeader>
+                <IonToolbar>
+                  <IonButtons slot="start">
+                    <IonButton onClick={() => modal.current?.dismiss()}>Cancel</IonButton>
+                  </IonButtons>
+                  <IonTitle>Welcome</IonTitle>
+                  <IonButtons slot="end">
+                    <IonButton strong={true} onClick={() => confirm()}>
+                      Confirm
+                    </IonButton>
+                  </IonButtons>
+                </IonToolbar>
+              </IonHeader> */}
+              <Photo photoFileName={"somefilename"} alias={"somealias"} editMode={false} callSavePhoto={savePhoto} />
+            </IonModal>
           </IonRow>
           <IonRow>
             {photos.length > 0 && photos.map(

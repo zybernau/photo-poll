@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import './Photo.css'
 import { Camera, GalleryImageOptions } from "@capacitor/camera";
 import { Directory, Encoding, Filesystem, ReadFileOptions } from "@capacitor/filesystem";
-import { PhotoProps, PhotoPropss } from "../pages/SelectPhotos";
+import { PhotoProps, PhotoPropss, locationType } from "../pages/SelectPhotos";
 import { useLocation } from "react-router";
 
 interface PhotoLinkState {
@@ -19,7 +19,8 @@ const Photo: React.FC<PhotoProps> = ({ photoFileName, alias, editMode, callSaveP
   // const SaveFunction = undefined;
   const [selectedImage, setSelectedImage] = useState<string | undefined>();
 
-
+  // const locationValue = useLocation<locationType>();
+  // const functionCall = locationValue.state.savePhotoFunction;
 
   const openImagePicker = async () => {
     const options: GalleryImageOptions = {
@@ -68,6 +69,9 @@ const Photo: React.FC<PhotoProps> = ({ photoFileName, alias, editMode, callSaveP
       callSavePhoto(photo);
       // SaveFunction(photo);  
     }
+    // if(functionCall) {
+    //   functionCall(photo);
+    // }
     // photo moved to select photos.
   }
   return (

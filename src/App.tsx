@@ -3,6 +3,7 @@ import {
   IonApp,
   IonIcon,
   IonLabel,
+  IonNav,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -75,6 +76,7 @@ const App: React.FC = () => (
             <Redirect to="/ProjectSettings" />
           </Route>
         </IonRouterOutlet>
+      
         <IonTabBar slot="bottom">
           <IonTabButton tab="ProjectSettings" href="/ProjectSettings">
             <IonIcon aria-hidden="true" icon={newspaperOutline}></IonIcon>
