@@ -1,11 +1,14 @@
-import { IonButton, IonContent, IonGrid, IonImg, IonInput, IonItem, IonLabel, IonRow, IonThumbnail } from "@ionic/react";
-import { useState } from "react";
+import { IonBackButton, IonButton, IonButtons, IonContent, IonGrid, IonHeader, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow, IonThumbnail, IonTitle, IonToolbar } from "@ionic/react";
+import { useEffect, useState } from "react";
 import './Photo.css'
 import { Camera, GalleryImageOptions } from "@capacitor/camera";
 import { Directory, Encoding, Filesystem, ReadFileOptions } from "@capacitor/filesystem";
-import { PhotoProps } from "../pages/SelectPhotos";
+import { PhotoProps, PhotoPropss } from "../pages/SelectPhotos";
+import { useLocation } from "react-router";
 
-
+interface PhotoLinkState {
+  savePhotoFunction: Function
+}
 const Photo: React.FC<PhotoProps> = ({ photoFileName, alias, editMode, callSavePhoto }) => {
   const [imageSelected, setImageSelected] = useState(false);
   const [imageContents, setImageContents] = useState<string | undefined>();
@@ -13,8 +16,10 @@ const Photo: React.FC<PhotoProps> = ({ photoFileName, alias, editMode, callSaveP
   const [chosenAlias, setChosenAlias] = useState('');
   const [id, setId] = useState('');
 
-
+  // const SaveFunction = undefined;
   const [selectedImage, setSelectedImage] = useState<string | undefined>();
+
+
 
   const openImagePicker = async () => {
     const options: GalleryImageOptions = {
@@ -31,8 +36,8 @@ const Photo: React.FC<PhotoProps> = ({ photoFileName, alias, editMode, callSaveP
       setSelectedImage(imageSelResults.photos[0].webPath);
     }
 
-    let readFileOptions : ReadFileOptions = {
-      path:imageSelResults.photos[0].path || ''
+    let readFileOptions: ReadFileOptions = {
+      path: imageSelResults.photos[0].path || ''
     }
 
     const imageContents = await Filesystem.readFile(readFileOptions);
@@ -51,6 +56,7 @@ const Photo: React.FC<PhotoProps> = ({ photoFileName, alias, editMode, callSaveP
   };
 
   const save = () => {
+    console.log('in save');
     let photo = {
       fileName: selectedFileName,
       alias: chosenAlias,
@@ -58,11 +64,22 @@ const Photo: React.FC<PhotoProps> = ({ photoFileName, alias, editMode, callSaveP
       content: imageContents,
       url: selectedImage
     };
-    callSavePhoto(photo);
+    if (callSavePhoto) {
+      callSavePhoto(photo);
+      // SaveFunction(photo);  
+    }
     // photo moved to select photos.
   }
   return (
-    <div className="add-photo">
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton>Back</IonBackButton>
+          </IonButtons>
+          <IonTitle>Add photo</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className="ion-padding">
         <IonGrid>
           <IonRow>
@@ -90,42 +107,21 @@ const Photo: React.FC<PhotoProps> = ({ photoFileName, alias, editMode, callSaveP
               <IonThumbnail>
                 <IonImg src={selectedImage} alt="preview image" />
               </IonThumbnail>
-              
+
             </IonItem>
           </IonRow>
           <IonRow>
             <IonItem>
-            <IonButton onClick={(e) => save()}>
-              Save
-            </IonButton>
+              <IonButton onClick={(e) => save()}>
+                Save
+              </IonButton>
             </IonItem>
           </IonRow>
         </IonGrid>
       </IonContent>
-    </div>
+    </IonPage>
+
   );
 };
-
-const EditModePhoto: React.FC<PhotoProps> = ({ photoFileName, alias, editMode }) => {
-  return (
-    <div className="edit-photo">
-      <IonContent fullscreen={true} className="ion-padding">
-        <IonItem>
-          <IonLabel position="stacked">Filename</IonLabel>
-          <IonInput type="text" placeholder="pick the file??" value={photoFileName} />
-        </IonItem>
-        <IonItem>
-          <IonLabel position="stacked">Alias</IonLabel>
-          <IonInput type="text" value={alias} placeholder="Alias for the photo" />
-        </IonItem>
-        <IonItem>
-          <IonThumbnail>
-            <img alt={alias} src={photoFileName} />
-          </IonThumbnail>
-        </IonItem>
-      </IonContent>
-    </div>
-  )
-}
 
 export default Photo;

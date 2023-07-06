@@ -10,10 +10,7 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { podiumOutline , imageOutline, settingsOutline} from 'ionicons/icons';
-import SelectPhotos from './pages/SelectPhotos';
-import PhotoSettings from './pages/ProjectSettings';
-import PhotoPoll from './pages/PhotoPoll';
+import { settingsOutline, newspaperOutline } from 'ionicons/icons';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -34,22 +31,45 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import ProjectSettings from './pages/ProjectSettings';
+import Settings from './pages/Settings';
+import SelectPhotos, { PhotoObj } from './pages/SelectPhotos';
+import Photo from './components/Photo';
 
 setupIonicReact();
+const photoUpdated = (photos: PhotoObj[]) => {
+  console.log('triggered in app .js');
+}
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
+      {/* <IonRouterOutlet> */}
+
+        {/* <Route path="/SelectPhotos">
+            <SelectPhotos onPhotoUpdate={(photos: PhotoObj[]) => photoUpdated(photos)} />
+          </Route>
+          <Route path="/AddPhoto">
+            <Photo alias='' photoFileName='' editMode={false} callSavePhoto={() => {console.log('fucked off !!! ')}} />
+          </Route> */}
+        {/* <Route exact path="/ProjectSettings">
+          <ProjectSettings />
+        </Route>
+        <Route path="/Settings">
+          <Settings />
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/ProjectSettings" />
+        </Route> */}
+      {/* </IonRouterOutlet> */}
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/SelectPhotos">
-            <SelectPhotos />
-          </Route>
+          <Route path="/SelectPhotos" component={SelectPhotos} />
+          <Route path="/AddPhoto" component={Photo} />
           <Route exact path="/ProjectSettings">
             <ProjectSettings />
           </Route>
-          <Route path="/PhotoPoll">
-            <PhotoPoll />
+          <Route path="/Settings">
+            <Settings />
           </Route>
           <Route exact path="/">
             <Redirect to="/ProjectSettings" />
@@ -57,16 +77,16 @@ const App: React.FC = () => (
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="ProjectSettings" href="/ProjectSettings">
-            <IonIcon aria-hidden="true" icon={settingsOutline}></IonIcon>
+            <IonIcon aria-hidden="true" icon={newspaperOutline}></IonIcon>
             <IonLabel>Project</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="SelectPhotos" href="/SelectPhotos">
+          {/* <IonTabButton tab="SelectPhotos" href="/SelectPhotos">
             <IonIcon aria-hidden="true" icon={imageOutline} />
             <IonLabel>Phots</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="PhotoPoll" href="/PhotoPoll">
-            <IonIcon aria-hidden="true" icon={podiumOutline} />
-            <IonLabel>Poll</IonLabel>
+          </IonTabButton> */}
+          <IonTabButton tab="Settings" href="/Settings">
+            <IonIcon aria-hidden="true" icon={settingsOutline} />
+            <IonLabel>Settings</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
