@@ -111,7 +111,6 @@ const Photo: React.FC<PhotoProps> = ({ photoFileName, alias, editMode, callSaveP
               <IonThumbnail>
                 <IonImg src={selectedImage} alt="preview image" />
               </IonThumbnail>
-
             </IonItem>
           </IonRow>
           <IonRow>

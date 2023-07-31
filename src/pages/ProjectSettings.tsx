@@ -1,18 +1,37 @@
-import { useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { IonButton, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonNav, IonNavLink, IonPage, IonRouterOutlet, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import './ProjectSettings.css';
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, useLocation } from 'react-router-dom';
 import SelectPhotos, { PhotoObj } from './SelectPhotos';
 import Photo from '../components/Photo';
 import { IonReactRouter } from '@ionic/react-router';
 
+export type ProjectProps = {
+  name: string;
+  status: 'Open' | 'Completed';
+};
 
-
-const ProjectSettings: React.FC = () => {
+const ProjectSettings: React.FC<ProjectProps> = (project) => {
   const [projectName, setProjectName] = useState<string | ''>('');
+  const [projectStatus, setProjectStatus] = useState<string | ''>('');
+
   const [photosSelected, setPhotosSelected] = useState<number | 0>(0);
   const [formValid, setFormValid] = useState<boolean | false>(false);
+  const location = useLocation();
 
+  // const {projectEdit} = (props.location && props.location.state) || {};
+
+  useEffect(() => {
+    // first time load in the jungle.
+    console.log('loaded project settings, projectEdit: ', location);
+    // load the project settings
+    if( location && location.state ) {
+      setProjectName(location.state.name);
+      setProjectStatus(location.state.status);
+    }
+    
+
+  },[])
   const projectNameChange = (evnt: Event) => {
     const value = (evnt.target as HTMLInputElement).value;
     setProjectName(value);
@@ -56,7 +75,7 @@ const ProjectSettings: React.FC = () => {
             <IonRow>
               <IonItem>
                 <IonInput labelPlacement="floating" label="Project Name" type="text"
-                  onIonInput={(e) => { projectNameChange(e); }} placeholder="unique project name" />
+                  onIonInput={(e) => { projectNameChange(e); }} placeholder="unique project name" >{projectName??''}</IonInput>
               </IonItem>
             </IonRow>
             <IonRow>
@@ -66,12 +85,9 @@ const ProjectSettings: React.FC = () => {
                 </IonLabel>
               </IonItem>
               <IonItem>
-
-              
                 <IonButton>
                   <Link to="/SelectPhotos">Select Photos</Link>
                 </IonButton>
-
               </IonItem>
             </IonRow>
             <IonRow>
@@ -81,7 +97,6 @@ const ProjectSettings: React.FC = () => {
             </IonRow>
           </IonGrid>
         </IonHeader>
-
       </IonContent>
     </IonPage>
   );

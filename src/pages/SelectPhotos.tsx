@@ -6,6 +6,7 @@ import './SelectPhotos.css';
 import { Link, Route } from 'react-router-dom';
 import { IonReactRouter } from '@ionic/react-router';
 import safeJsonStringify from 'safe-json-stringify';
+// import { insertProject } from '../components/db';
 
 export interface PhotoProps {
   photoFileName: string;
@@ -64,6 +65,7 @@ const SelectPhotos: React.FC<SelectPhotoProps> = (onPhotoUpdate) => {
     // console.log("photos count", photos.length);
     setPhotoCount(photos.length);
     modal.current?.dismiss();
+    // insertProject();
     // 
     // history.go(-1);
   }
