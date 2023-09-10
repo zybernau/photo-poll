@@ -11,13 +11,18 @@ export type ProjectProps = {
   status: 'Open' | 'Completed';
 };
 
+type locationStateType = {
+  name:string;
+  status: string;
+}
+
 const ProjectSettings: React.FC<ProjectProps> = (project) => {
   const [projectName, setProjectName] = useState<string | ''>('');
   const [projectStatus, setProjectStatus] = useState<string | ''>('');
 
   const [photosSelected, setPhotosSelected] = useState<number | 0>(0);
   const [formValid, setFormValid] = useState<boolean | false>(false);
-  const location = useLocation();
+  const location = useLocation<locationStateType>();
 
   // const {projectEdit} = (props.location && props.location.state) || {};
 
@@ -25,13 +30,14 @@ const ProjectSettings: React.FC<ProjectProps> = (project) => {
     // first time load in the jungle.
     console.log('loaded project settings, projectEdit: ', location);
     // load the project settings
-    if( location && location.state ) {
+    if (location && location.state) {
       setProjectName(location.state.name);
       setProjectStatus(location.state.status);
     }
-    
 
-  },[])
+
+  }, []);
+
   const projectNameChange = (evnt: Event) => {
     const value = (evnt.target as HTMLInputElement).value;
     setProjectName(value);
@@ -75,7 +81,7 @@ const ProjectSettings: React.FC<ProjectProps> = (project) => {
             <IonRow>
               <IonItem>
                 <IonInput labelPlacement="floating" label="Project Name" type="text"
-                  onIonInput={(e) => { projectNameChange(e); }} placeholder="unique project name" >{projectName??''}</IonInput>
+                  onIonInput={(e) => { projectNameChange(e); }} placeholder="unique project name" >{projectName ?? ''}</IonInput>
               </IonItem>
             </IonRow>
             <IonRow>
@@ -84,7 +90,7 @@ const ProjectSettings: React.FC<ProjectProps> = (project) => {
                   Photos Selected: {photosSelected}
                 </IonLabel>
               </IonItem>
-              <IonItem>
+              <IonItem>  
                 <IonButton>
                   <Link to="/SelectPhotos">Select Photos</Link>
                 </IonButton>
